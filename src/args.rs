@@ -14,7 +14,7 @@ pub fn get_file_name() -> io::Result<String> {
         .required(true);
 
     clap::App::new("test junit")
-        .about("Outputs junit output for CI runners like Jenkins")
+        .about("Creates junit XML from cargo-test output")
         .arg(name_arg)
         .get_matches()
         .value_of("name")
