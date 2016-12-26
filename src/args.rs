@@ -10,14 +10,20 @@ pub fn get_file_name() -> io::Result<String> {
         .short("n")
         .long("name")
         .value_name("NAME")
-        .help("set the junit suite name. This is also the file name")
-        .required(true);
+        .help("set the junit suite name. This is also the file name");
 
-    clap::App::new("test junit")
+    let matches = clap::App::new("test junit")
         .about("Creates junit XML from cargo-test output")
-        .arg(name_arg)
-        .get_matches()
-        .value_of("name")
+        .bin_name("cargo")
+        .subcommand(clap::SubCommand::with_name("test-junit")
+            .about("Converts cargo test output into a junit report")
+            .arg(name_arg))
+        .get_matches();
+
+    let sub_match = matches.subcommand_matches("test-junit")
+        .unwrap();
+
+    sub_match.value_of("name")
         .map(str::to_string)
         .ok_or(io::Error::new(io::ErrorKind::NotFound, "Name arg not provided"))
         .or_else(|_| env::current_dir().and_then(get_last_path_part))
