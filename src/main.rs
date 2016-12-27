@@ -16,9 +16,23 @@ mod doc;
 mod args;
 
 fn main() {
-    let ref name = args::get_file_name().unwrap();
+    let matches = args::get_args();
 
-    let output = get_test_output().expect("Failed running tests");
+    let features = matches.value_of("features")
+        .map(|x| format!(" --features {}", x))
+        .unwrap_or("".to_string());
+
+    let ref name = args::get_file_name(matches).unwrap();
+
+    let output = get_test_output(features)
+        .map_err(|x| {
+            if let duct::Error::Status(ref output) = x {
+                println!("{}", String::from_utf8_lossy(&output.stdout))
+            }
+
+            x
+        })
+        .unwrap();
 
     let package = Package::new();
     let d = package.as_document();
@@ -69,8 +83,8 @@ fn main() {
         .expect(&format!("unable to output XML to {}", name));
 }
 
-fn get_test_output() -> Result<duct::Output, duct::Error> {
-    duct::sh("cargo test")
+fn get_test_output(features: String) -> Result<duct::Output, duct::Error> {
+    duct::sh(format!("cargo test{}", features))
         .stderr_to_stdout()
         .capture_stdout()
         .run()
