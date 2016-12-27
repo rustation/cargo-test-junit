@@ -62,7 +62,7 @@ fn main() {
             .attr("name", suite.name)
             .attr("errors", suite.failed)
             .attr("failures", suite.failed)
-            .attr("tests", suite.failed)
+            .attr("tests", suite.total)
             .append_to(&test_suites);
 
         for &test_to_vec::Test { name, error, .. } in &suite.tests {
