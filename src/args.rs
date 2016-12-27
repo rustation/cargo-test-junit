@@ -12,19 +12,20 @@ pub fn get_args<'a>() -> clap::ArgMatches<'a> {
         .value_name("NAME")
         .help("set the junit suite name. This is also the file name");
 
+
     clap::App::new("test junit")
         .about("Creates junit XML from cargo-test output")
-        .arg(clap::Arg::with_name("features")
-            .long("features")
-            .value_name("FEATURES"))
         .bin_name("cargo")
         .subcommand(clap::SubCommand::with_name("test-junit")
             .about("Converts cargo test output into a junit report")
-            .arg(name_arg))
+            .arg(name_arg)
+            .arg(clap::Arg::with_name("features")
+                .long("features")
+                .value_name("FEATURES")))
         .get_matches()
 }
 
-pub fn get_file_name(matches: clap::ArgMatches) -> io::Result<String> {
+pub fn get_file_name(matches: &clap::ArgMatches) -> io::Result<String> {
     let sub_match = matches.subcommand_matches("test-junit")
         .unwrap();
 

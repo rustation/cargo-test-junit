@@ -16,9 +16,12 @@ mod doc;
 mod args;
 
 fn main() {
-    let matches = args::get_args();
+    let ref matches = args::get_args();
 
-    let features = matches.value_of("features")
+    let sub_match = matches.subcommand_matches("test-junit")
+        .unwrap();
+
+    let features = sub_match.value_of("features")
         .map(|x| format!(" --features {}", x))
         .unwrap_or("".to_string());
 
