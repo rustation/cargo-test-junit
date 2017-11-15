@@ -1,6 +1,6 @@
 [package]
 name = "cargo-test-junit"
-version = "0.6.1"
+version = "0.6.2"
 authors = ["Joe Grund <joe.grund@intel.com>"]
 keywords = ["test", "cargo", "junit", "jenkins"]
 license = "MIT"
@@ -8,7 +8,7 @@ repository = "https://github.com/rustation/cargo-test-junit"
 description = "Converts cargo test output into a junit report"
 
 [dependencies]
-test-to-vec = "0.4.1"
+test-to-vec = "0.4.2"
 nom = "2.0.1"
 duct = "0.4.0"
 sxd-document = "0.2.0"
