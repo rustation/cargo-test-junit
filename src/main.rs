@@ -2,8 +2,6 @@ extern crate test_to_vec;
 extern crate nom;
 extern crate sxd_document;
 extern crate clap;
-
-#[macro_use(cmd)]
 extern crate duct;
 
 use nom::IResult;
