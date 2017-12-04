@@ -90,5 +90,6 @@ fn get_test_output(features: String) -> Result<duct::Output, duct::Error> {
     duct::sh(format!("cargo test{}", features))
         .stderr_to_stdout()
         .capture_stdout()
+        .unchecked()
         .run()
 }

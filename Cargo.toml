@@ -1,6 +1,6 @@
 [package]
 name = "cargo-test-junit"
-version = "0.6.3"
+version = "0.6.4"
 authors = ["Joe Grund <joe.grund@intel.com>"]
 keywords = ["test", "cargo", "junit", "jenkins"]
 license = "MIT"
