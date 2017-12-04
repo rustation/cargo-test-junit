@@ -76,7 +76,7 @@ fn main() {
         }
     }
 
-    let mut f = fs::File::create(format!("{}.xml", name))
+    let mut f = fs::File::create(format!("{}", name))
         .expect(&format!("could not create file: {}", name));
 
     format_document(&d, &mut f)
