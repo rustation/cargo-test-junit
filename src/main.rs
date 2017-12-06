@@ -1,8 +1,8 @@
-extern crate test_to_vec;
-extern crate nom;
-extern crate sxd_document;
 extern crate clap;
 extern crate duct;
+extern crate nom;
+extern crate sxd_document;
+extern crate test_to_vec;
 
 use nom::IResult;
 use sxd_document::Package;
@@ -16,10 +16,10 @@ mod args;
 fn main() {
     let ref matches = args::get_args();
 
-    let sub_match = matches.subcommand_matches("test-junit")
-        .unwrap();
+    let sub_match = matches.subcommand_matches("test-junit").unwrap();
 
-    let features = sub_match.value_of("features")
+    let features = sub_match
+        .value_of("features")
         .map(|x| format!(" --features {}", x))
         .unwrap_or("".to_string());
 
@@ -40,13 +40,13 @@ fn main() {
 
     let suites: Vec<Suite> = match test_to_vec::cargo_test_result_parser(&output.stdout) {
         IResult::Done(_, x) => x,
-        IResult::Error(_) => panic!("Parser error"),
+        IResult::Error(e) => panic!("Parser error {:?}", e),
         _ => panic!("Parser did not finish successfully"),
     };
 
-    let (totals, failures) = suites.iter()
-        .fold((0, 0),
-              |(total, failed), y| (total + y.total, failed + y.failed));
+    let (totals, failures) = suites.iter().fold((0, 0), |(total, failed), y| {
+        (total + y.total, failed + y.failed)
+    });
 
     let test_suites = doc::el(d, "testsuites")
         .attr("name", name)
@@ -76,8 +76,8 @@ fn main() {
         }
     }
 
-    let mut f = fs::File::create(format!("{}", name))
-        .expect(&format!("could not create file: {}", name));
+    let mut f =
+        fs::File::create(format!("{}", name)).expect(&format!("could not create file: {}", name));
 
     format_document(&d, &mut f)
         .ok()
