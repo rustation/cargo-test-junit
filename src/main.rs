@@ -86,6 +86,7 @@ fn main() {
 
 fn get_test_output(features: String) -> Result<duct::Output, duct::Error> {
     duct::sh(format!("cargo test{}", features))
+        .env("RUSTFLAGS", "-A warnings")
         .stderr_to_stdout()
         .capture_stdout()
         .unchecked()
