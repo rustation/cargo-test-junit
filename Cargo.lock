@@ -10,7 +10,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "cargo-test-junit"
-version = "0.6.6"
+version = "0.6.7"
 dependencies = [
  "clap 2.19.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "duct 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
