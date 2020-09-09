@@ -27,10 +27,7 @@ fn main() {
 
     let output = get_test_output(features)
         .map_err(|x| {
-            if let duct::Error::Status(ref output) = x {
-                println!("{}", String::from_utf8_lossy(&output.stdout))
-            }
-
+            println!("{}", x);
             x
         })
         .unwrap();
@@ -84,11 +81,11 @@ fn main() {
         .expect(&format!("unable to output XML to {}", name));
 }
 
-fn get_test_output(features: String) -> Result<duct::Output, duct::Error> {
-    duct::sh(format!("cargo test{}", features))
+fn get_test_output(features: String) -> std::io::Result<std::process::Output> {
+    duct::cmd("cargo", vec![format!("test{}", features)])
         .env("RUSTFLAGS", "-A warnings")
         .stderr_to_stdout()
-        .capture_stdout()
+        .stdout_capture()
         .unchecked()
         .run()
 }
